@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TobotSlam3D</string>
+    <string name="panel_title">瞳步机器人控制面板</string>
+
+    <!-- ===== 连接与状态区 ===== -->
+    <string name="zone_connection">连接与状态区</string>
+    <string name="status_connected">连接成功!</string>
+    <string name="status_disconnected">未连接</string>
+    <string name="status_connecting">连接中…</string>
+    <string name="label_service_address">服务地址</string>
+    <string name="btn_connect">连接</string>
+    <string name="btn_disconnect">停止连接</string>
+    <string name="label_latest_info">最新信息</string>
+
+    <!-- ===== 路径显示画布 ===== -->
+    <string name="zone_canvas">路径显示</string>
+    <string name="path_points_format">路径显示 (%1$d 点)</string>
+    <string name="btn_refresh">↻</string>
+    <string name="btn_zoom_in">+</string>
+    <string name="btn_zoom_out">−</string>
+    <string name="btn_fit">⛶</string>
+    <string name="canvas_note">3D 版 SDK 只提供位姿与路径，不提供栅格地图 / 点云</string>
+
+    <!-- ===== 建图功能 ===== -->
+    <string name="zone_mapping">建图功能</string>
+    <string name="btn_start_mapping">开始建图</string>
+    <string name="btn_save_map">保存地图</string>
+
+    <!-- ===== 导航功能 ===== -->
+    <string name="zone_nav">导航功能</string>
+    <string name="label_map">地图</string>
+    <string name="btn_select_map">选择地图和启动导航</string>
+    <string name="btn_delete_map">删除地图</string>
+    <string name="btn_add_goal">添加目标点</string>
+    <string name="btn_delete_goal">删除目标点</string>
+    <string name="label_goal">目标点</string>
+    <string name="hint_select_map">-- 请选择地图 --</string>
+    <string name="hint_select_goal">-- 请选择目标点 --</string>
+    <string name="btn_navigate">导航到选中目标</string>
+    <string name="btn_cancel_nav">取消导航</string>
+    <string name="btn_dock">回桩</string>
+
+    <!-- ===== 手动控制 ===== -->
+    <string name="zone_manual">手动控制</string>
+    <string name="label_max_linear">最大线速度</string>
+    <string name="label_max_angular">最大角速度</string>
+    <string name="warn_manual_topic">手动控制走 ROS 标准 %1$s；官方 SDK 文档未列出速度接口，需实测确认（长按标题可修改话题名）</string>
+
+    <!-- ===== 状态行 ===== -->
+    <string name="label_pose">位姿</string>
+    <string name="label_battery">电量</string>
+
+    <!-- ===== 对话框 ===== -->
+    <string name="dlg_save_map_title">保存地图</string>
+    <string name="dlg_map_name_hint">请输入地图名称</string>
+    <string name="dlg_add_goal_title">添加目标点</string>
+    <string name="dlg_goal_name_hint">请输入目标点名称</string>
+    <string name="dlg_goal_position">将按底盘当前位置与朝向保存</string>
+    <string name="btn_confirm">确定</string>
+    <string name="btn_cancel">取消</string>
+    <string name="dlg_delete_map">确定删除地图「%1$s」？此操作不可恢复。</string>
+    <string name="dlg_delete_goal">确定删除目标点「%1$s」？</string>
+    <string name="dlg_topic_title">手动控制话题</string>
+    <string name="dlg_topic_hint">例如 /cmd_vel</string>
+
+    <!-- ===== 提示 ===== -->
+    <string name="toast_need_connect">请先连接底盘</string>
+    <string name="toast_need_map">请先选择地图</string>
+    <string name="toast_need_goal">请先选择目标点</string>
+    <string name="toast_invalid_address">服务地址格式不正确</string>
+    <string name="toast_need_name">请输入名称</string>
+    <string name="toast_no_pose">尚未收到底盘位姿，请先确认定位正常</string>
+    <string name="toast_goal_saved">已按当前位置保存目标点</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  配色对齐 Web 控制面板实测截图（见《Tbot3D导航底盘使用说明V1.0》图1~图7）：
+  开始建图蓝、保存地图绿、选择地图/取消导航青、删除类粉红、
+  添加目标点浅绿、导航目标点琥珀、停止连接红。
+-->
+<resources>
+    <color name="page_bg">#FFF7F8FA</color>
+    <color name="card_bg">#FFFFFFFF</color>
+    <color name="divider">#FFE3E7EC</color>
+
+    <color name="text_primary">#FF1F2933</color>
+    <color name="text_secondary">#FF5C6B7A</color>
+    <color name="text_hint">#FF9AA5B1</color>
+
+    <color name="btn_blue">#FF2F80ED</color>
+    <color name="btn_green">#FF27AE60</color>
+    <color name="btn_teal">#FF17A2B8</color>
+    <color name="btn_pink">#FFE15B70</color>
+    <color name="btn_pink_light">#FFE3708C</color>
+    <color name="btn_green_light">#FF6FCF97</color>
+    <color name="btn_amber">#FFF2C230</color>
+    <color name="btn_red">#FFD9534F</color>
+    <color name="btn_disabled">#FFC7CDD4</color>
+
+    <color name="btn_text_light">#FFFFFFFF</color>
+    <color name="btn_text_dark">#FF3A3000</color>
+
+    <color name="status_ok">#FF27AE60</color>
+    <color name="status_bad">#FFD9534F</color>
+
+    <color name="canvas_bg">#FFFFFFFF</color>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  底盘服务是局域网内的明文 HTTP/WebSocket（ws://192.168.1.151:9090、http://192.168.1.151:8081），
+  因此必须允许明文流量。这里整体放开，不做域名白名单——底盘 IP 可由用户随时修改。
+
+  如需收紧：把 base-config 的 cleartextTrafficPermitted 改为 false，
+  并在 domain-config 中列出实际使用的底盘 IP 网段。
+-->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true">
+        <trust-anchors>
+            <certificates src="system" />
+        </trust-anchors>
+    </base-config>
+</network-security-config>

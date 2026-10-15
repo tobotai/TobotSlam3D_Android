@@ -1,0 +1,108 @@
+{
+  "$comment": "TobotSlam3D 协议契约 —— 单一事实来源(single source of truth)。来源：http://www.tobotai.com/sdk/index.html 与《Tbot3D导航底盘使用说明V1.0》第5章。Android 源码、mock 底盘、一致性校验脚本都以本文件为准。",
+  "connection": {
+    "defaultHost": "192.168.1.151",
+    "webSocketPort": 9090,
+    "httpPanelPort": 8081,
+    "webSocketUrlTemplate": "ws://{host}:{port}",
+    "protocol": "rosbridge",
+    "rosEnvironmentRequired": false
+  },
+
+  "envelopes": {
+    "subscribe": "{\"op\":\"subscribe\",\"topic\":\"<topic>\",\"type\":\"<type>\"}",
+    "callService": "{\"op\":\"call_service\",\"service\":\"<service>\",\"args\":<args>}",
+    "publishIncoming": "{\"op\":\"publish\",\"topic\":\"<topic>\",\"msg\":<msg>}",
+    "serviceResponseIncoming": "{\"op\":\"service_response\",\"service\":\"<service>\",\"values\":<values>,\"result\":true}"
+  },
+
+  "topics": [
+    {
+      "name": "/fast_lio_localization",
+      "type": "nav_msgs/Odometry",
+      "purpose": "底盘当前位姿",
+      "msgPaths": ["pose.pose.position.x", "pose.pose.position.y", "pose.pose.position.z", "pose.pose.orientation.x", "pose.pose.orientation.y", "pose.pose.orientation.z", "pose.pose.orientation.w"],
+      "sample": { "pose": { "pose": { "position": { "x": 1.23, "y": 4.56, "z": 0.0 }, "orientation": { "x": 0, "y": 0, "z": 0.5, "w": 0.866 } } } }
+    },
+    {
+      "name": "/aft_pgo_path",
+      "type": "nav_msgs/Path",
+      "purpose": "规划全局路径点数组；导航启动后约 5 秒发一次，共约 5 次（约 30 秒），必须缓存最后一次",
+      "msgPaths": ["poses[].pose.position.x", "poses[].pose.position.y", "poses[].pose.position.z"],
+      "sample": { "poses": [ { "pose": { "position": { "x": 0, "y": 0, "z": 0 } } }, { "pose": { "position": { "x": 1, "y": 2, "z": 0 } } } ] }
+    },
+    {
+      "name": "/map_list_kitty",
+      "type": "kitty_runtime_manager/MapList",
+      "purpose": "地图列表及每张地图下已保存的目标点",
+      "msgPaths": ["maps[].map_name", "maps[].map_path", "maps[].goals[].name", "maps[].goals[].x", "maps[].goals[].y", "maps[].goals[].theta"],
+      "sample": { "maps": [ { "map_name": "Lobby", "map_path": "/maps/floor1", "goals": [ { "name": "Reception", "x": 1.0, "y": 2.0, "theta": 0.5 }, { "name": "电梯口", "x": 3.0, "y": 4.0, "theta": 1.2 } ] } ] }
+    },
+    {
+      "name": "/ebot_goal_status_local_planner",
+      "type": "std_msgs/Float64MultiArray",
+      "purpose": "导航状态：data[0]==1 表示到达；Docking 场景下只有真正充上电才发 1",
+      "msgPaths": ["data[0]"],
+      "sample": { "data": [1] },
+      "note": "侧边栏简写为 /ebot_goal_status，真实名是全名"
+    },
+    {
+      "name": "/ebot_work_state",
+      "type": "std_msgs/Float64MultiArray",
+      "purpose": "电量与充电状态",
+      "msgPaths": ["data[0]", "data[1]"],
+      "sample": { "data": [2, 75.5] },
+      "note": "data[0]: 1=Charging, 2=Not charging（未充电是 2，不是 0）；data[1]: 电量百分比"
+    }
+  ],
+
+  "services": [
+    { "name": "/start_mapping_kitty", "type": "std_srvs/Trigger", "args": {}, "response": { "success": true, "message": "Mapping started" } },
+    { "name": "/save_map_kitty", "type": "kitty_runtime_manager/SaveMap", "args": { "filepath": "<mapName>" }, "response": { "success": true, "message": "Map saved" }, "note": "filepath 只传地图名，不带路径" },
+    { "name": "/select_map_and_start_kitty", "type": "kitty_runtime_manager/SaveMap", "args": { "filepath": "<mapName>" }, "response": { "success": true, "message": "Map selected and navigation started" }, "note": "服务类型原文写作 SaveMap" },
+    { "name": "/delete_map_kitty", "type": "kitty_runtime_manager/DeleteMap", "args": { "map_name": "<mapName>" }, "response": { "success": true, "message": "Deleted successfully" }, "note": "字段是 map_name，不是 filepath" },
+    { "name": "/docking_kitty", "type": "std_srvs/Trigger", "args": {}, "response": { "success": true, "message": "Docking started" }, "note": "success 只表示流程已启动，不代表已充上电" },
+    { "name": "/navigate_to_pose", "type": "nav_msgs/GetPlan", "args": { "goal": { "pose": { "position": { "x": "<x>", "y": "<y>", "z": 0.0 } } } }, "response": { "plan": { "poses": [] } }, "note": "到达判据不看本响应，看 /ebot_goal_status_local_planner data[0]==1" },
+    { "name": "/add_goal_kitty", "type": "kitty_runtime_manager/AddGoal", "args": { "map_name": "<mapName>", "goal_name": "<goalName>", "x": "<x>", "y": "<y>", "theta": "<theta>" }, "response": { "success": true, "message": "Added successfully" }, "note": "theta 单位弧度" },
+    { "name": "/delete_goal_kitty", "type": "kitty_runtime_manager/DeleteGoal", "args": { "map_name": "<mapName>", "goal_name": "<goalName>" }, "response": { "success": true, "message": "Deleted successfully" } }
+  ],
+
+  "cancelNavigation": {
+    "service": "/navigate_to_pose",
+    "args": { "goal": { "pose": { "position": { "x": 999999, "y": 888888, "z": 0 } } } },
+    "note": "取消导航 = 给 /navigate_to_pose 传魔数坐标 x=999999,y=888888,z=0"
+  },
+
+  "constants": {
+    "goalStatusArrived": 1,
+    "goalStatusNotArrived": 0,
+    "charging": 1,
+    "notCharging": 2,
+    "zAlwaysZero": true,
+    "pathPublishIntervalSec": 5,
+    "pathPublishCount": 5,
+    "yawFormula": "yaw = atan2(2*(w*z+x*y), 1-2*(z*z+y*y))",
+    "yawToQuaternion": "z = sin(yaw/2), w = cos(yaw/2), x = y = 0"
+  },
+
+  "verbatimWireSamples": [
+    "{\"op\":\"subscribe\",\"topic\":\"/fast_lio_localization\",\"type\":\"nav_msgs/Odometry\"}",
+    "{\"op\":\"subscribe\",\"topic\":\"/aft_pgo_path\",\"type\":\"nav_msgs/Path\"}",
+    "{\"op\":\"subscribe\",\"topic\":\"/map_list_kitty\",\"type\":\"kitty_runtime_manager/MapList\"}",
+    "{\"op\":\"subscribe\",\"topic\":\"/ebot_goal_status_local_planner\",\"type\":\"std_msgs/Float64MultiArray\"}",
+    "{\"op\":\"subscribe\",\"topic\":\"/ebot_work_state\",\"type\":\"std_msgs/Float64MultiArray\"}",
+    "{\"op\":\"call_service\",\"service\":\"/start_mapping_kitty\",\"args\":{}}",
+    "{\"op\":\"call_service\",\"service\":\"/docking_kitty\",\"args\":{}}",
+    "{\"op\":\"call_service\",\"service\":\"/navigate_to_pose\",\"args\":{\"goal\":{\"pose\":{\"position\":{\"x\":999999,\"y\":888888,\"z\":0}}}}}"
+  ],
+
+  "specGaps": [
+    "超时 / 心跳 / 重连策略：原文未说明",
+    "认证与 wss://：原文未说明",
+    "rosbridge id 字段配对：原文未说明",
+    "除 /aft_pgo_path 外其余 Topic 的推送频率：原文未说明",
+    "坐标系 frame_id：原文未说明",
+    "服务调用是否必须带 type 字段：原文未说明（Java/JS/C/C++/C#/Go 示例都不带）",
+    "MapList 是否周期推送、增删改后是否自动重推：原文未说明"
+  ]
+}

@@ -1,0 +1,5 @@
+// TobotSlam3D —— 顶层构建文件
+// 只声明插件版本，仓库统一在 settings.gradle 里配置（AGP 8 推荐做法）。
+plugins {
+    id 'com.android.application' version '8.1.4' apply false
+}

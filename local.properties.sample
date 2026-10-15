@@ -1,0 +1,3 @@
+# 复制本文件为 local.properties，并把 sdk.dir 改成你机器上的 Android SDK 路径。
+# Android Studio 打开工程时会自动生成，通常无需手工创建。
+sdk.dir=C\:\\Users\\<你的用户名>\\AppData\\Local\\Android\\Sdk

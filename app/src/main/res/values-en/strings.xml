@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="panel_title">TOBOT Robot Control Panel</string>
+
+    <!-- ===== Connection &amp; status ===== -->
+    <string name="zone_connection">Connection &amp; Status</string>
+    <string name="status_connected">Connected!</string>
+    <string name="status_disconnected">Not connected</string>
+    <string name="status_connecting">Connecting…</string>
+    <string name="label_service_address">Service address</string>
+    <string name="btn_connect">Connect</string>
+    <string name="btn_disconnect">Disconnect</string>
+    <string name="label_latest_info">Latest message</string>
+
+    <!-- ===== Path canvas ===== -->
+    <string name="zone_canvas">Path</string>
+    <string name="path_points_format">Path (%1$d points)</string>
+    <string name="canvas_note">The 3D SDK exposes pose and path only — no occupancy grid or point cloud</string>
+
+    <!-- ===== Mapping ===== -->
+    <string name="zone_mapping">Mapping</string>
+    <string name="btn_start_mapping">Start mapping</string>
+    <string name="btn_save_map">Save map</string>
+
+    <!-- ===== Navigation ===== -->
+    <string name="zone_nav">Navigation</string>
+    <string name="label_map">Map</string>
+    <string name="btn_select_map">Select map and start navigation</string>
+    <string name="btn_delete_map">Delete map</string>
+    <string name="btn_add_goal">Add goal</string>
+    <string name="btn_delete_goal">Delete goal</string>
+    <string name="label_goal">Goal</string>
+    <string name="hint_select_map">-- select a map --</string>
+    <string name="hint_select_goal">-- select a goal --</string>
+    <string name="btn_navigate">Navigate to selected goal</string>
+    <string name="btn_cancel_nav">Cancel navigation</string>
+    <string name="btn_dock">Dock</string>
+
+    <!-- ===== Manual control ===== -->
+    <string name="zone_manual">Manual control</string>
+    <string name="label_max_linear">Max linear speed</string>
+    <string name="label_max_angular">Max angular speed</string>
+    <string name="warn_manual_topic">Manual control uses the ROS standard %1$s; the public SDK does not document a velocity interface — verify on site (long-press the title to change the topic)</string>
+
+    <!-- ===== Status row ===== -->
+    <string name="label_pose">Pose</string>
+    <string name="label_battery">Battery</string>
+
+    <!-- ===== Dialogs ===== -->
+    <string name="dlg_save_map_title">Save map</string>
+    <string name="dlg_map_name_hint">Enter map name</string>
+    <string name="dlg_add_goal_title">Add goal</string>
+    <string name="dlg_goal_name_hint">Enter goal name</string>
+    <string name="dlg_goal_position">Saved at the robot current position and heading</string>
+    <string name="btn_confirm">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="dlg_delete_map">Delete map &quot;%1$s&quot;? This cannot be undone.</string>
+    <string name="dlg_delete_goal">Delete goal &quot;%1$s&quot;?</string>
+    <string name="dlg_topic_title">Manual control topic</string>
+    <string name="dlg_topic_hint">e.g. /cmd_vel</string>
+
+    <!-- ===== Toasts ===== -->
+    <string name="toast_need_connect">Connect to the chassis first</string>
+    <string name="toast_need_map">Select a map first</string>
+    <string name="toast_need_goal">Select a goal first</string>
+    <string name="toast_invalid_address">Invalid service address</string>
+    <string name="toast_need_name">Please enter a name</string>
+    <string name="toast_no_pose">No pose received yet — check localisation</string>
+    <string name="toast_goal_saved">Goal saved at current position</string>
+</resources>

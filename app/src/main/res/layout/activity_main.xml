@@ -1,0 +1,412 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  主界面：按《Tbot3D导航底盘使用说明V1.0》第 3 章「界面功能分区」自上而下排列
+  连接与状态区 → 路径显示画布 → 建图功能 → 导航功能 → 手动控制，
+  控件与配色对齐 Web 控制面板实测截图。
+-->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/panel_title"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- ============ 1. 连接与状态区 ============ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zone_connection"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/statusText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="@string/status_disconnected"
+                android:textColor="@color/status_bad"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/FieldLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_service_address" />
+
+            <EditText
+                android:id="@+id/addressInput"
+                style="@style/InputBox"
+                android:hint="@string/label_service_address"
+                android:inputType="textUri" />
+
+            <Button
+                android:id="@+id/connectButton"
+                style="@style/PanelButton"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/btn_teal"
+                android:text="@string/btn_connect" />
+
+            <TextView
+                style="@style/FieldLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_latest_info" />
+
+            <TextView
+                android:id="@+id/latestInfo"
+                style="@style/ValueText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="" />
+
+            <TextView
+                android:id="@+id/poseText"
+                style="@style/ValueText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/batteryText"
+                style="@style/ValueText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textColor="@color/text_secondary" />
+        </LinearLayout>
+
+        <!-- ============ 2. 路径显示画布 ============ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/pathTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/zone_canvas"
+                    android:textColor="@color/text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/btnRefresh"
+                    style="@style/CanvasToolButton"
+                    android:text="@string/btn_refresh" />
+
+                <Button
+                    android:id="@+id/btnZoomIn"
+                    style="@style/CanvasToolButton"
+                    android:text="@string/btn_zoom_in" />
+
+                <Button
+                    android:id="@+id/btnZoomOut"
+                    style="@style/CanvasToolButton"
+                    android:text="@string/btn_zoom_out" />
+
+                <Button
+                    android:id="@+id/btnFit"
+                    style="@style/CanvasToolButton"
+                    android:text="@string/btn_fit" />
+            </LinearLayout>
+
+            <com.tobot.slam3d.ui.PathCanvasView
+                android:id="@+id/pathCanvas"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/bg_canvas" />
+
+            <TextView
+                android:id="@+id/viewInfo"
+                style="@style/ValueText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:textColor="@color/text_secondary"
+                android:textSize="12sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/canvas_note"
+                android:textColor="@color/text_hint"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <!-- ============ 3. 建图功能 ============ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zone_mapping"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnStartMapping"
+                style="@style/PanelButton"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="@color/btn_blue"
+                android:text="@string/btn_start_mapping" />
+
+            <Button
+                android:id="@+id/btnSaveMap"
+                style="@style/PanelButton"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/btn_green"
+                android:text="@string/btn_save_map" />
+        </LinearLayout>
+
+        <!-- ============ 4. 导航功能 ============ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zone_nav"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="52dp"
+                    android:text="@string/label_map"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <Spinner
+                    android:id="@+id/mapSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnSelectMap"
+                style="@style/PanelButton"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/btn_teal"
+                android:text="@string/btn_select_map" />
+
+            <Button
+                android:id="@+id/btnDeleteMap"
+                style="@style/PanelButton"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/btn_pink"
+                android:text="@string/btn_delete_map" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnAddGoal"
+                    style="@style/PanelButton"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/btn_green_light"
+                    android:text="@string/btn_add_goal" />
+
+                <Button
+                    android:id="@+id/btnDeleteGoal"
+                    style="@style/PanelButton"
+                    android:layout_width="0dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/btn_pink_light"
+                    android:text="@string/btn_delete_goal" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minWidth="52dp"
+                    android:text="@string/label_goal"
+                    android:textColor="@color/text_secondary"
+                    android:textSize="13sp" />
+
+                <Spinner
+                    android:id="@+id/goalSpinner"
+                    android:layout_width="0dp"
+                    android:layout_height="42dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/bg_input" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnNavigate"
+                style="@style/PanelButton"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/btn_amber"
+                android:text="@string/btn_navigate"
+                android:textColor="@color/btn_text_dark" />
+
+            <Button
+                android:id="@+id/btnCancelNav"
+                style="@style/PanelButton"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/btn_teal"
+                android:text="@string/btn_cancel_nav" />
+
+            <Button
+                android:id="@+id/btnDock"
+                style="@style/PanelButton"
+                android:layout_marginTop="8dp"
+                android:backgroundTint="@color/btn_green"
+                android:text="@string/btn_dock" />
+        </LinearLayout>
+
+        <!-- ============ 5. 手动控制 ============ -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="@drawable/bg_card"
+            android:orientation="vertical"
+            android:padding="12dp">
+
+            <TextView
+                android:id="@+id/manualTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/zone_manual"
+                android:textColor="@color/text_primary"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <com.tobot.slam3d.ui.JoystickView
+                android:id="@+id/joystick"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/FieldLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_max_linear" />
+
+                    <EditText
+                        android:id="@+id/maxLinearInput"
+                        style="@style/InputBox"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        style="@style/FieldLabel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/label_max_angular" />
+
+                    <EditText
+                        android:id="@+id/maxAngularInput"
+                        style="@style/InputBox"
+                        android:inputType="numberDecimal" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/manualWarn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textColor="@color/text_hint"
+                android:textSize="11sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="12dp" />
+    </LinearLayout>
+</ScrollView>
